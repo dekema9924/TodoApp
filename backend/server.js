@@ -3,10 +3,19 @@ const express = require('express')
 const app = express()
 const router = require('./Routes/RegisterRoute/Registerroutes.js')
 const mongoose = require('mongoose');
+const cors = require('cors')
+
+
 
 
 //middlewares
+app.use(cors({
+    credentials: true,
+
+}))
 app.use(router)
+
+
 
 
 app.listen(port, async ()=>{

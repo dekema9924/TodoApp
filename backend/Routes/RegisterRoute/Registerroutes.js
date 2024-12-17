@@ -3,10 +3,15 @@ const express = require('express')
 const router = express.Router()
 const Register = require('../../Controllers/SignUpControllers/Register')
 const Login = require('../../Controllers/SignUpControllers/Login')
+const VerifyToken = require('../../Middleware/authMiddleware')
+const cookieParser = require('cookie-parser');
+
 
 
 router.use(express.urlencoded({extended: true}))
 router.use(express.json())
+router.use(cookieParser())
+
 
 
 router.get('/', (req, res)=>{
@@ -18,6 +23,12 @@ router.post('/register', Register)
 
 //Login
 router.post('/', Login )
+
+//dashboard
+
+router.get('/dashboard', VerifyToken, ((req,res)=>{
+    console.log(req.userId)
+}))
 
 
 module.exports = router
