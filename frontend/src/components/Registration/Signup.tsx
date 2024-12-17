@@ -2,6 +2,9 @@ import React, { useState } from 'react'
 import { FaEye } from "react-icons/fa";
 import { FaEyeSlash } from "react-icons/fa";
 import { Link } from 'react-router-dom';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
+import toast from 'react-hot-toast';
 
 
 
@@ -19,17 +22,34 @@ function Signup() {
     username: ""
   }
 
+
   const [isPswrdHidden, setpswrdHidden] = useState('text')
   const [InputValues, setInputValues] = useState<inputType>(initialState)
+  const [Emailerr, setEmailErr] = useState(" ")
+  const navigate= useNavigate()
 
   const HandleValues = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setInputValues({ ...InputValues, [name]: value })
+    setEmailErr(" ")
   }
-  const HandleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const HandleSubmit = async(e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log(InputValues)
     //make post request
+    axios.defaults.withCredentials = true
+    axios.defaults.baseURL = 'http://localhost:3000'
+
+    await axios.post('/register', {InputValues})
+    .then((response)=>{
+      console.log(response)
+      if(response.data){
+        toast.success(response.data.message, {duration: 4000})
+        navigate('/')
+      }
+    }).catch((err)=>{
+        setEmailErr(err.response.data.error)
+    })
+   
   }
 
   const HandlepasswordVisible = () => {
@@ -52,6 +72,7 @@ function Signup() {
             <div className='flex flex-col w-[335px] z-50  mt-4'>
               <label className='font-bold' htmlFor="email">Email</label>
               <input onChange={HandleValues} className='h-10 rounded-md pl-4 text-black outline-none' type="email" placeholder='username@gmail.com' name='email' />
+              <span className='text-xs  w-fit text-red-900 font-bold ml-2'>{Emailerr}</span>
             </div>
 
             <div className='flex flex-col w-[335px] z-50  my-4'>

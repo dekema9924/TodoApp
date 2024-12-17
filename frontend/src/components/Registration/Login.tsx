@@ -2,7 +2,9 @@ import React, { useState } from 'react'
 import { FaEye } from "react-icons/fa";
 import { FaEyeSlash } from "react-icons/fa";
 import { Link } from 'react-router-dom';
-
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
+import toast from 'react-hot-toast';
 
 
 
@@ -19,15 +21,30 @@ function Login() {
 
   const [isPswrdHidden, setpswrdHidden] = useState('text')
   const [InputValues, setInputValues] = useState<inputType>(initialState)
+  const [ErrMsg, setErrMsg] = useState("")
+  const navigate = useNavigate()
 
   const HandleValues = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setInputValues({ ...InputValues, [name]: value })
+    setErrMsg("")
   }
-  const HandleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const HandleSubmit = async(e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log(InputValues)
     //make post request
+    axios.defaults.withCredentials = true
+    axios.defaults.baseURL = 'http://localhost:3000'
+
+    await axios.post('/', {InputValues})
+    .then((response)=>{
+      console.log(response)
+      if(response.data){
+        toast.success(response.data.message, {duration: 40000})
+        navigate('/dashboad')
+      }
+    }).catch((err)=>{
+        setErrMsg(err.response.data.error)
+    })
   }
 
   const HandlepasswordVisible = () => {
@@ -41,7 +58,11 @@ function Login() {
             <p className='text-sm text-purple-600 relative '>Your Logo</p>
             <h1 className='font-bold text-4xl'>Login</h1>
 
+
             <div className='flex flex-col w-[335px] z-50  mt-4'>
+              {
+                ErrMsg.length > 0 ? <span className=' w-80 h-6 pt-1 bg-red-600 text-white font-semibold text-center uppercase text-xs  rounded-md '>{ErrMsg}</span> : ""
+              }
               <label className='font-bold' htmlFor="email">Email</label>
               <input onChange={HandleValues} className='h-10 rounded-md pl-4 text-black outline-none' type="email" placeholder='username@gmail.com' name='email' />
             </div>

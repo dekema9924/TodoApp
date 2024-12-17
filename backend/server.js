@@ -11,9 +11,11 @@ const cors = require('cors')
 //middlewares
 app.use(cors({
     credentials: true,
+    origin: 'http://localhost:5173' //cors err if not added
 
 }))
 app.use(router)
+
 
 
 

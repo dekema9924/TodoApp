@@ -3,7 +3,7 @@ const bcrypt = require('bcrypt');
 
 
 const Register = async (req, res) => {
-    const { username, email, password } = req.body
+    const { username, email, password } = req.body.InputValues
     let Emailexist = await Userdb.findOne({ email: email })
     if(Emailexist) return res.status(400).json({error: 'Email already exist'})
         bcrypt.hash(password, 10, async function (err, hash) {

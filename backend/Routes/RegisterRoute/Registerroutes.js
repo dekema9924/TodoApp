@@ -8,9 +8,10 @@ const cookieParser = require('cookie-parser');
 
 
 
+
+router.use(cookieParser())
 router.use(express.urlencoded({extended: true}))
 router.use(express.json())
-router.use(cookieParser())
 
 
 

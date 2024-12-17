@@ -6,13 +6,13 @@ require('dotenv').config()
 
 
 
-const Login= async(req,res)=>{
-    const {email, password} = req.body
+const Login= async (req,res)=>{
+    const {email, password} = req.body.InputValues
 
-    const Emailvalid = await Userdb.findOne({email})
-    if(!Emailvalid) return res.status(400).json({error: "Invalid email"})
-        const match = bcrypt.compareSync(password, Emailvalid.password);
-    if(!match) return res.status(400).json({error: "Invalid password"})
+    const Emailvalid = await Userdb.findOne({email: email})
+    if(!Emailvalid) return res.status(400).json({error: "Invalid credentials"})
+        const match =  bcrypt.compareSync(password, Emailvalid.password);
+    if(!match) return res.status(400).json({error: "Invalid credentials"})
         //create Token
         var token = jwt.sign({ id: Emailvalid._id }, process.env.PrivateKey, {expiresIn: '1h'} );
         //create a cookie....start here
