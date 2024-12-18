@@ -40,7 +40,7 @@ function Login() {
       console.log(response)
       if(response.data){
         toast.success(response.data.message, {duration: 40000})
-        navigate('/dashboad')
+        navigate('/todo')
       }
     }).catch((err)=>{
         setErrMsg(err.response.data.error)

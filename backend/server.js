@@ -2,6 +2,7 @@ const port = 3000
 const express = require('express')
 const app = express()
 const router = require('./Routes/RegisterRoute/Registerroutes.js')
+const todoRouter = require('./Routes/TodoRoutes/todoroute.js')
 const mongoose = require('mongoose');
 const cors = require('cors')
 
@@ -15,6 +16,7 @@ app.use(cors({
 
 }))
 app.use(router)
+app.use('/todo', todoRouter)
 
 
 

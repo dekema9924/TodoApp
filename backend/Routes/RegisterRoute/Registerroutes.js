@@ -8,10 +8,9 @@ const cookieParser = require('cookie-parser');
 
 
 
-
-router.use(cookieParser())
 router.use(express.urlencoded({extended: true}))
 router.use(express.json())
+router.use(cookieParser())
 
 
 
@@ -24,12 +23,6 @@ router.post('/register', Register)
 
 //Login
 router.post('/', Login )
-
-//dashboard
-
-router.get('/dashboard', VerifyToken, ((req,res)=>{
-    console.log(req.userId)
-}))
 
 
 module.exports = router
