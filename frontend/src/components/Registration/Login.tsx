@@ -7,7 +7,6 @@ import { useNavigate } from 'react-router-dom';
 import toast from 'react-hot-toast';
 
 
-
 function Login() {
   type inputType = {
     email: string
@@ -23,6 +22,7 @@ function Login() {
   const [InputValues, setInputValues] = useState<inputType>(initialState)
   const [ErrMsg, setErrMsg] = useState("")
   const navigate = useNavigate()
+  // let token: any = cookies.get('Token')
 
   const HandleValues = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;

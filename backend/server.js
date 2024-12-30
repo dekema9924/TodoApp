@@ -28,8 +28,7 @@ app.listen(port, async ()=>{
         await mongoose.connect('mongodb://localhost:27017/Users')
     }
     catch(error){
-        await mongoose.connect('mongodb://localhost:27017/Users')
-
+        console.error('Error connecting to MongoDB:', error)
     }
 })
 
