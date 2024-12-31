@@ -6,6 +6,7 @@ import Todo from "./components/TodoApp/Todo";
 import { UserProvider } from "./context/UserContext";
 import UnauthorizedRoute, { AuthorizedRoute } from "./ProtectiveRoutes/AuthorizedRoutes";
 import TodoProvider from "./context/TodoContext";
+import TodoIdProvider from "./context/TodoIdContext";
 
 
 
@@ -14,7 +15,8 @@ function App() {
 
   return (
     <>
-     <TodoProvider>
+    <TodoIdProvider>
+    <TodoProvider>
      <UserProvider>
         <Toaster />
         <Routes>
@@ -34,6 +36,8 @@ function App() {
         </Routes>
       </UserProvider>
      </TodoProvider>
+    </TodoIdProvider>
+
 
     </>
   )

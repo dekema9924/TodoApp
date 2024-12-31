@@ -1,17 +1,28 @@
+
+
 import toast from 'react-hot-toast'
 import axios from 'axios'
 import Cookies from 'js-cookie'
 
-async function Delete(id:number) {
+interface props {
+    todoId: number
+    values: {
+        title: string
+        progress: number
+        iscomplete: boolean
+    }
+}
+
+async function Update({todoId, values}:props) {
 
  try{
     axios.defaults.baseURL = 'http://localhost:3000/todo'
-    await axios.delete(`/delete/${id}` , {
+    await axios.patch(`/update/${todoId}`,  values , {
         headers: {
-            Authorization: `Bearer ${Cookies.get('Token')}` 
+            Authorization: `Bearer ${Cookies.get('Token')}`
         }
-    }).then((response)=>{
-        console.log(response.data.message)
+    })
+    .then((response)=>{
         toast.success(response.data.message)
         
     })
@@ -22,4 +33,4 @@ async function Delete(id:number) {
   
 }
 
-export default Delete
+export default Update

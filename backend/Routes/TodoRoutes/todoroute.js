@@ -4,15 +4,16 @@ const todoDashboard = require('../../Controllers/TodoControllers/todoDashboard')
 const VerifyToken = require('../../Middleware/authMiddleware')
 const Addtodo = require('../../Controllers/TodoControllers/addTodo')
 const ShowTodo = require('../../Controllers/TodoControllers/showTodo')
-
-
+const UpdateTodo = require('../../Controllers/TodoControllers/Update')
+const DeleteTodo = require('../../Controllers/TodoControllers/DeleteTodo')
 //dashboard 
-todoRouter.use(VerifyToken())
 
 todoRouter.get('/' , VerifyToken, todoDashboard)
 todoRouter.post('/addtodo', VerifyToken, Addtodo )
 todoRouter.get('/showtodo', VerifyToken, ShowTodo )
-todoRouter.get('/delete', )
+todoRouter.delete('/delete/:id', VerifyToken, DeleteTodo)
+todoRouter.patch('/update/:id', VerifyToken, UpdateTodo)
+
 
 
 

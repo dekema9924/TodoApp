@@ -5,6 +5,8 @@ import { CiCircleMore } from "react-icons/ci";
 import AddTodo from './AddTodo';
 import EditTodo from './EditTodo';
 import { TodoContext } from '../../context/TodoContext';
+import Delete from './Delete';
+import TodoIdProvider, { IdContext } from '../../context/TodoIdContext';
 
 
 
@@ -19,7 +21,8 @@ function Todo() {
   const [showEdit, setEdit] = useState(false)
   const [isChecked, setIsChecked] = useState(false);
   const [activeDiv, setActiveDiv] = useState<number | null>(null)
-  const { Todo } = context
+  const { Todo, setTodo } = context
+  const {setToDoId} = useContext(IdContext)
 
   const HandleactiveDiv = (id: number) => {
     setActiveDiv(id === activeDiv ? null : id)
@@ -34,16 +37,18 @@ function Todo() {
   const HandleShowComponent = () => {
     setshowAddtodo(true)
   }
-  const HandleEditComponent = () => {
+  const HandleEditComponent = (id: number) => {
     setEdit(true)
+    setToDoId(id)
+  }
+
+  const HandleDelete=(id:number)=>{
+    Delete(id)
+    setTodo(Todo.filter(todo => todo._id !== id))
   }
 
 
   let todoLenghth = Todo.length
-
-
-
-
   return (
     <>
       {
@@ -85,8 +90,8 @@ function Todo() {
                           activeDiv === todo._id ?
                             <>
                               <div className=' z-50 w-24 p-4 text-center h-20 bg-blue-300 gap-2 rounded-md flex flex-col justify-center absolute right-4 bottom-[-70px]  '>
-                                <p className=' bg-red-300 cursor-pointer '>Delete</p>
-                                <p onClick={HandleEditComponent} className='bg-white cursor-pointer'>Edit</p>
+                                <p onClick={()=>HandleDelete(todo._id)} className=' bg-red-300 cursor-pointer '>Delete</p>
+                                <p onClick={()=>HandleEditComponent(todo._id)} className='bg-white cursor-pointer'>Edit</p>
                               </div>
                             </> : ""
                         }
