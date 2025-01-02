@@ -14,6 +14,8 @@ type TodoType = {
 type TodoContextType = {
     Todo: TodoType[];
     setTodo: React.Dispatch<React.SetStateAction<TodoType[]>>; 
+    Loading: boolean
+    setLoading: React.Dispatch<React.SetStateAction<boolean>>; 
 };
 
 // Context provider props type
@@ -26,27 +28,10 @@ export const TodoContext = createContext<TodoContextType | undefined>(undefined)
 
 const TodoProvider = ({ children }: ContextProviderProps) => {
     const [Todo, setTodo] = useState<TodoType[]>([]);
+    const[Loading, setLoading] = useState(true)
 
-    useEffect(() => {
-        const fetchTodo = async () => {
-            try {
-                axios.defaults.baseURL = 'http://localhost:3000/todo';
-                const response = await axios.get('/showtodo', {
-                    headers: {
-                        Authorization: `Bearer ${Cookies.get('Token')}`,
-                    },
-                });
-                console.log(response.data.result);
-                setTodo(response.data.result); 
-            } catch (error) {
-                console.error("Error fetching todos:", error);
-            }
-        };
-
-        fetchTodo();
-    }, []); 
     return (
-        <TodoContext.Provider value={{ Todo, setTodo }}>
+        <TodoContext.Provider value={{ Todo, setTodo, Loading, setLoading }}>
             {children}
         </TodoContext.Provider>
     );

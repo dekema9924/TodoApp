@@ -1,8 +1,9 @@
-import React, { useContext } from 'react'
+import React, { useContext, useEffect } from 'react'
 import { useState } from 'react'
 import { IdContext } from '../../context/TodoIdContext';
 import Update from './UpdateTodo';
 import { TodoContext } from '../../context/TodoContext';
+import fetchTodo from './FetchTodo';
 
 export default function EditTodo({ setEdit }: any) {
 
@@ -14,7 +15,7 @@ export default function EditTodo({ setEdit }: any) {
     if (!context) {
       throw new Error('TodoContext must be used within a TodoProvider');
     }
-    // const { Todo, setTodo } = context
+    const {  Todo } = context
 
 
 
@@ -29,10 +30,9 @@ export default function EditTodo({ setEdit }: any) {
             progress: value,
             iscomplete: complete
         }
-
         //update
         await Update({todoId, values})
-        setEdit(false)
+        setEdit(false)       
     }
     return (
       

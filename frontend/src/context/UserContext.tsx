@@ -29,7 +29,6 @@ type UsercontextType = {
 export const UserProvider = ({ children }: ContextProviderProps) => {
     const [User, setUser] = useState<string | null>(null);
     const [Loading, setLoading] = useState(true)
-    const navigate = useNavigate()
 
 
     let token = Cookies.get('Token')
@@ -51,7 +50,7 @@ export const UserProvider = ({ children }: ContextProviderProps) => {
                 console.log('error fetching user', error)
                 Cookies.remove('Token')
             })}
-    }, [Loading])
+    }, [User])
 
     return (
         <UserContext.Provider value={{ User, setUser, Loading, setLoading}}>
